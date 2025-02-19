@@ -1,7 +1,7 @@
 package ru.job4j;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -88,8 +88,12 @@ public class Search {
 
     public static void main(String[] args) throws IOException {
         validate(args);
-        search(path, predicate)
-               .forEach(System.out::println);
-
+        List<Path> log = search(path, predicate);
+        try (PrintWriter writer = new PrintWriter(
+                new FileWriter("C:\\projects\\job4j_finder\\data\\log.txt"))) {
+            log.forEach(writer::println);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
